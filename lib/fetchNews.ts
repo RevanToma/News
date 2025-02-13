@@ -1,4 +1,9 @@
-export const fetchNews = async (category = 'top', query = '') => {
+import { NewsArticle } from '@/types';
+
+export const fetchNews = async (
+  category = 'top',
+  query = ''
+): Promise<NewsArticle[]> => {
   try {
     const endpoint = query
       ? `/api/search?q=${query}`
@@ -10,7 +15,8 @@ export const fetchNews = async (category = 'top', query = '') => {
       throw new Error(`❌ Failed to fetch news, Status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: NewsArticle[] = await response.json();
+
     return data || [];
   } catch (error) {
     console.error('Error fetching news from Next.js API:', error);

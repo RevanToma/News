@@ -1,6 +1,6 @@
 'use client';
 import { SearchIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -9,9 +9,9 @@ const Search = () => {
   const [query, setQuery] = useState('');
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (query.trim() !== '') {
       router.push(`/search?q=${query}`);
@@ -20,11 +20,16 @@ const Search = () => {
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
+      if (
+        inputRef.current &&
+        event.target instanceof Node &&
+        !inputRef.current.contains(event.target)
+      ) {
         setOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);

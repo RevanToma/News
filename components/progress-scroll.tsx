@@ -1,9 +1,15 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ProgressScroll = ({
+type ProgressScrollProps = {
+  vertical?: boolean;
+  hideOnSmallScreens?: boolean;
+  className?: string;
+};
+
+const ProgressScroll: React.FC<ProgressScrollProps> = ({
   vertical = false,
   hideOnSmallScreens,
   className,

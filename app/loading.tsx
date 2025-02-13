@@ -1,7 +1,7 @@
 import SkeletonCard from '@/components/skeleton-card';
 import { cn } from '@/lib/utils';
 
-const LoadingSkeleton = ({ className }) => {
+const LoadingSkeleton = ({ className }: { className?: string }) => {
   return (
     <main className='max-w-7xl mx-auto p-6'>
       <div className={cn('grid grid-cols-1 md:grid-cols-2 gap-6', className)}>

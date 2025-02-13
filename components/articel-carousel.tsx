@@ -15,9 +15,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { Button } from './ui/button';
+import { NewsArticle } from '@/types';
 
 const ArticelCarousel = () => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState<NewsArticle[]>([]);
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const ArticelCarousel = () => {
       <h2 className='text-3xl font-semibold mb-4'>More Articles</h2>
       <Carousel className='w-11/12'>
         <CarouselContent>
-          {articles.map((article) => {
+          {articles?.map((article) => {
             const isBookmarked = bookmarks.some(
               (b) => b.article_id === article.article_id
             );
@@ -68,7 +69,7 @@ const ArticelCarousel = () => {
                         </div>
                       </Link>
                       <Button
-                        variant={isBookmarked ? 'destructive' : ''}
+                        variant={isBookmarked ? 'destructive' : 'default'}
                         onClick={() =>
                           isBookmarked
                             ? removeBookmark(article.article_id)

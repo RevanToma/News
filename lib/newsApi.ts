@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { NewsArticle } from '@/types';
 
 // spara i json fil lokalt
 const CACHE_DIR = path.join(process.cwd(), '.cache');
@@ -7,10 +8,13 @@ if (!fs.existsSync(CACHE_DIR)) {
   fs.mkdirSync(CACHE_DIR);
 }
 
-const getCacheFilePath = (identifier) =>
+const getCacheFilePath = (identifier: string) =>
   path.join(CACHE_DIR, `${identifier}.json`);
 
-export async function fetchAndCacheNews(endpoint, cacheKey) {
+export async function fetchAndCacheNews(
+  endpoint: string,
+  cacheKey: string
+): Promise<NewsArticle[]> {
   const cacheFile = getCacheFilePath(cacheKey);
 
   if (fs.existsSync(cacheFile)) {
@@ -34,8 +38,9 @@ export async function fetchAndCacheNews(endpoint, cacheKey) {
       throw new Error(`Failed to fetch news, Status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data: { results: NewsArticle[] } = await response.json();
     fs.writeFileSync(cacheFile, JSON.stringify(data.results || []));
+
     return data.results || [];
   } catch (error) {
     console.error('API Fetch Error:', error);

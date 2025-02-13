@@ -11,10 +11,10 @@ import { ModeToggle } from './toggle-mode';
 import { usePathname } from 'next/navigation';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 import { EllipsisVertical } from 'lucide-react';
-import ChasNewsIcon from './chas-news-icon';
 import Search from './search';
-import ProgressScroll from './progress-scroll';
 import { categories } from '@/lib/constants';
+import ChasNewsIcon from './chas-news-icon';
+import ProgressScroll from './progress-scroll';
 
 export default function Navbar() {
   const pathname = usePathname();

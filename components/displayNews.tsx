@@ -6,9 +6,10 @@ import NewsCard from './news-card';
 import AsideNews from './aside-news';
 import LoadingSkeleton from '@/app/loading';
 import TrendingNews from './tranding-news';
+import { NewsArticle } from '@/types';
 
 const DisplayNews = () => {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ const DisplayNews = () => {
       const articles = await fetchNews('other');
 
       const sortedNews = articles.sort(
-        (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
+        (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
       );
       setNews(sortedNews);
       setLoading(false);
@@ -25,7 +26,7 @@ const DisplayNews = () => {
     getNews();
   }, []);
 
-  if (loading) return <LoadingSkeleton />;
+  // if (loading) return <LoadingSkeleton />;
 
   return (
     <main

@@ -1,4 +1,4 @@
-export const categoryFallbacks = {
+export const categoryFallbacks: Record<string, string> = {
   business: '/buissnies-news.webp',
   sports: '/sports-news.webp',
   technology: '/technology-news.webp',

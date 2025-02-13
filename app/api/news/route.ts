@@ -1,6 +1,7 @@
 import { fetchAndCacheNews } from '@/lib/newsApi';
+import { NextResponse } from 'next/server';
 
-export async function GET(req) {
+export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get('category') || 'top';
   const query = searchParams.get('q') || '';
@@ -15,9 +16,6 @@ export async function GET(req) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ error: 'Failed to load news' }, { status: 500 });
   }
 }

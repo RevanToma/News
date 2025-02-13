@@ -21,13 +21,14 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from './ui/menubar';
+import { NewsArticle } from '@/types';
 
-export default function NewsCard({ article }) {
+export default function NewsCard({ article }: { article: NewsArticle }) {
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
   const isBookmarked = bookmarks.some(
     (b) => b.article_id === article.article_id
   );
-  const [summary, setSummary] = useState(null);
+  const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [imgSrc, setImgSrc] = useState(
@@ -62,7 +63,7 @@ export default function NewsCard({ article }) {
             </MenubarTrigger>
             <MenubarContent className='flex flex-col gap-2'>
               <Button
-                variant={isBookmarked ? 'destructive' : ''}
+                variant={isBookmarked ? 'destructive' : 'default'}
                 onClick={() =>
                   isBookmarked
                     ? removeBookmark(article.article_id)
@@ -79,7 +80,7 @@ export default function NewsCard({ article }) {
 
               <Button
                 onClick={handleSummarize}
-                disabled={loading || summary}
+                disabled={loading}
                 variant='secondary'
               >
                 {loading ? 'Summarizing...' : 'Summarize'}
@@ -109,7 +110,11 @@ export default function NewsCard({ article }) {
           src={imgSrc}
           alt='News'
           className='h-80 w-full object-cover transition-opacity duration-300 ease-in-out opacity-0'
-          onLoad={(e) => e.target.classList.add('opacity-100')}
+          onLoad={(e) => {
+            const img = e.target as HTMLImageElement;
+            img.classList.remove('opacity-0', 'blur-lg'); // Remove blur and fade in
+            img.classList.add('opacity-100'); // Ensure full opacity
+          }}
           placeholder='blur'
           priority={false}
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAvklEQVR42mNgGAWjYBSMglEwCYaIoIL/2tDFp+GoAD5P04z2HdUOUBRvTD4MQVUAzDqhDSoKxCmZoJlAIgsK0TgGhsLzMwMDAwDCJRIAXcMDAwDDIQEmYGxDH4MBMYGxjP2z6T1AqAtRUVDBUzAAwPDAwMDw+IkgDYMwMlDBXbOUBDEwMDDX1H1FVjEHwBmJjAwPCwxHiIwAgawG4mA8TIWgbDAQrAjoIC8pShq/AHIZRgAQlsLsgAAAABJRU5ErkJggg=='

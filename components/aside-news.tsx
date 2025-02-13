@@ -1,8 +1,15 @@
-import Link from 'next/link';
-import { Button } from './ui/button';
 import ProgressScroll from './progress-scroll';
+import { NewsArticle } from '@/types';
+import { Button } from './ui/button';
+import Link from 'next/link';
 
-const AsideNews = ({ news, category }) => {
+const AsideNews = ({
+  news,
+  category,
+}: {
+  news: NewsArticle[];
+  category?: string;
+}) => {
   return (
     <aside className='lg:border-l border-gray-300 pl-2 sticky top-20 lg:h-[calc(100vh-10rem)] overflow-x-hidden w-full relative'>
       <ProgressScroll className='left-0' vertical hideOnSmallScreens />
