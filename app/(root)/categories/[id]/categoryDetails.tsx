@@ -1,26 +1,24 @@
 'use client';
-
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { fetchNews } from '@/lib/fetchNews';
 import NewsCard from '@/components/news-card';
 import AsideNews from '@/components/aside-news';
 import LoadingSkeleton from '@/app/loading';
 import { categoryIcons } from '@/lib/constants';
+import { NewsArticle } from '@/types';
 
-const CategoryDetailsPage = () => {
-  const { id: category } = useParams();
-  const [news, setNews] = useState([]);
+const CategoryDetailsPage = ({ category }: { category: string }) => {
+  const [news, setNews] = useState<NewsArticle[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!category) return;
 
     const getNews = async () => {
-      const articles = await fetchNews(category);
+      const articles = await fetchNews(category as string);
 
       const sortedNews = articles.sort(
-        (a, b) => new Date(b.pubDate) - new Date(a.pubDate)
+        (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
       );
 
       setNews(sortedNews);
@@ -30,7 +28,7 @@ const CategoryDetailsPage = () => {
     getNews();
   }, [category]);
 
-  const categoryEmote = categoryIcons[category];
+  const categoryEmote = categoryIcons[category as keyof typeof categoryIcons];
 
   if (loading) return <LoadingSkeleton />;
 

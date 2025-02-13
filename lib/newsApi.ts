@@ -14,7 +14,7 @@ const getCacheFilePath = (identifier: string) =>
 export async function fetchAndCacheNews(
   endpoint: string,
   cacheKey: string
-): Promise<NewsArticle[]> {
+): Promise<{ results: NewsArticle[] }> {
   const cacheFile = getCacheFilePath(cacheKey);
 
   if (fs.existsSync(cacheFile)) {
@@ -29,19 +29,19 @@ export async function fetchAndCacheNews(
     throw new Error('API key is missing');
   }
 
+  const fullUrl = `${apiUrl}${endpoint}&apikey=${apiKey}&language=en`;
+
   try {
-    const response = await fetch(
-      `${apiUrl}${endpoint}&apikey=${apiKey}&language=en`
-    );
+    const response = await fetch(fullUrl);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch news, Status: ${response.status}`);
     }
 
-    const data: { results: NewsArticle[] } = await response.json();
+    const data = await response.json();
     fs.writeFileSync(cacheFile, JSON.stringify(data.results || []));
 
-    return data.results || [];
+    return { results: data.results || [] };
   } catch (error) {
     console.error('API Fetch Error:', error);
     throw new Error('Failed to load news');

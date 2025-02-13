@@ -1,23 +1,13 @@
 'use client';
 import { SearchIcon } from 'lucide-react';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
 const Search = () => {
-  const [query, setQuery] = useState('');
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (query.trim() !== '') {
-      router.push(`/search?q=${query}`);
-      setQuery('');
-    }
-  };
 
   useEffect(() => {
     const handleClickOutside = (event: globalThis.MouseEvent) => {
@@ -35,7 +25,7 @@ const Search = () => {
   }, []);
 
   return (
-    <form onSubmit={handleSearch} className='flex items-center gap-3'>
+    <form action={'/search'} className='flex items-center gap-3'>
       <div
         className={`relative flex items-center transition-all duration-300 ${
           open ? 'max-w-[300px]' : 'max-w-0'
@@ -44,8 +34,7 @@ const Search = () => {
         <Input
           type='text'
           placeholder='Search articles...'
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          name='q'
           className='w-60  focus-visible:ring-0'
         />
       </div>

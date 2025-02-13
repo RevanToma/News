@@ -1,4 +1,5 @@
 import { summarizeWithGemini } from '@/lib/utils';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
@@ -16,7 +17,7 @@ export async function POST(req) {
 
     const summary = await summarizeWithGemini(articleContent);
 
-    return new Response(JSON.stringify({ summary }), {
+    return NextResponse(JSON.stringify({ summary }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
