@@ -1,7 +1,7 @@
-import { summarizeWithGemini } from '@/lib/utils';
+import { summarizeWithGemini } from '@/lib/gemini';
 import { NextResponse } from 'next/server';
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const { articleContent } = await req.json();
 
@@ -17,18 +17,12 @@ export async function POST(req) {
 
     const summary = await summarizeWithGemini(articleContent);
 
-    return NextResponse(JSON.stringify({ summary }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ summary }, { status: 200 });
   } catch (error) {
     console.error('Gemini API Error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Failed to summarize article' }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
+    return NextResponse.json(
+      { error: 'Failed to summarize article' },
+      { status: 500 }
     );
   }
 }

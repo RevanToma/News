@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-
 const Search = () => {
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -24,8 +23,18 @@ const Search = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (!inputRef.current?.value.trim()) {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <form action={'/search'} className='flex items-center gap-3'>
+    <form
+      action={'/search'}
+      onSubmit={handleSubmit}
+      className='flex items-center gap-3'
+    >
       <div
         className={`relative flex items-center transition-all duration-300 ${
           open ? 'max-w-[300px]' : 'max-w-0'
@@ -35,6 +44,7 @@ const Search = () => {
           type='text'
           placeholder='Search articles...'
           name='q'
+          ref={inputRef}
           className='w-60  focus-visible:ring-0'
         />
       </div>

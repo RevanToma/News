@@ -13,7 +13,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { categoryFallbacks } from '@/lib/constants';
 import { useState } from 'react';
-import { summarizeWithGemini, truncateText } from '@/lib/utils';
+import { truncateText } from '@/lib/utils';
 import { EllipsisVertical, Loader, Star } from 'lucide-react';
 import {
   Menubar,
@@ -22,6 +22,7 @@ import {
   MenubarTrigger,
 } from './ui/menubar';
 import { NewsArticle } from '@/types';
+import { fetchSummarize } from '@/lib/gemini';
 
 export default function NewsCard({ article }: { article: NewsArticle }) {
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
@@ -44,7 +45,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
     try {
       const truncatedContent = truncateText(article.description, 1000);
 
-      const data = await summarizeWithGemini(truncatedContent);
+      const data = await fetchSummarize(truncatedContent);
 
       setSummary(data);
     } catch (error) {
@@ -83,7 +84,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
                 disabled={loading}
                 variant='secondary'
               >
-                {loading ? 'Summarizing...' : 'Summarize'}
+                Summarize
               </Button>
             </MenubarContent>
           </div>
@@ -112,8 +113,8 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
           className='h-80 w-full object-cover transition-opacity duration-300 ease-in-out opacity-0'
           onLoad={(e) => {
             const img = e.target as HTMLImageElement;
-            img.classList.remove('opacity-0', 'blur-lg'); // Remove blur and fade in
-            img.classList.add('opacity-100'); // Ensure full opacity
+            img.classList.remove('opacity-0', 'blur-lg');
+            img.classList.add('opacity-100');
           }}
           placeholder='blur'
           priority={false}
@@ -128,12 +129,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
             ? 'No description available'
             : article.description}
         </CardDescription>
-        {loading && (
-          <>
-            <span>Summarizing</span>
-            <Loader className='h-4 w-4 animate-spin mx-auto mt-5' />
-          </>
-        )}
+        {loading && <Loader className='h-4 w-4 animate-spin mx-auto mt-5' />}
         {summary && (
           <p className='mt-2 text-sm bg-secondary p-2 rounded-md'>{summary}</p>
         )}

@@ -2,14 +2,9 @@ import { fetchAndCacheNews } from '@/lib/newsApi';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
-  const url = new URL(req.url); // ✅ Ensure full URL is parsed correctly
-  console.log('🌍 API Received URL:', url.toString()); // ✅ Debugging
-  console.log('🔍 searchParams:', url.searchParams.toString()); // ✅ Debugging
+  const url = new URL(req.url);
 
   const query = url.searchParams.get('q');
-  console.log('🔍 Extracted Query:', query); // ✅ Debugging
-
-  const { searchParams } = new URL(req.url);
 
   if (!query) {
     return new Response(JSON.stringify({ error: 'Search query is missing' }), {
