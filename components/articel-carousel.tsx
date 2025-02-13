@@ -10,31 +10,24 @@ import {
 } from '@/components/ui/carousel';
 import { useBookmarks } from '@/context/bookmarkContext';
 import { categoryFallbacks } from '@/lib/constants';
-import { fetchNews } from '@/lib/fetchNews';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { Button } from './ui/button';
-import { NewsArticle } from '@/types';
+import useFetchNews from '@/hooks/use-fetch-news';
+import LoadingSkeleton from '@/app/loading';
 
 const ArticelCarousel = () => {
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
+  const { news } = useFetchNews('politics');
 
-  useEffect(() => {
-    const loadArticles = async () => {
-      const news = await fetchNews('politics');
-      setArticles(news.slice(0, 10));
-    };
-    loadArticles();
-  }, []);
+  const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
 
   return (
     <section className='mt-10 flex flex-col items-center'>
       <h2 className='text-3xl font-semibold mb-4'>More Articles</h2>
       <Carousel className='w-11/12'>
         <CarouselContent>
-          {articles?.map((article) => {
+          {news?.map((article) => {
             const isBookmarked = bookmarks.some(
               (b) => b.article_id === article.article_id
             );

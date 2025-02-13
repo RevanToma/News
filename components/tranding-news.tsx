@@ -1,19 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { fetchNews } from '@/lib/fetchNews';
 import NewsCard from './news-card';
-import { NewsArticle } from '@/types';
+import useFetchNews from '@/hooks/use-fetch-news';
 
 export default function TrendingNews() {
-  const [trending, setTrending] = useState<NewsArticle[]>([]);
-
-  useEffect(() => {
-    const getTrending = async () => {
-      const news = await fetchNews();
-      setTrending(news);
-    };
-    getTrending();
-  }, []);
+  const { news: trending } = useFetchNews();
 
   return (
     <aside className='pb-5'>

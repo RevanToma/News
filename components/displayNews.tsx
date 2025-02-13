@@ -1,32 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { fetchNews } from '@/lib/fetchNews';
 import NewsCard from './news-card';
 import AsideNews from './aside-news';
 import LoadingSkeleton from '@/app/loading';
 import TrendingNews from './tranding-news';
-import { NewsArticle } from '@/types';
+import useFetchNews from '@/hooks/use-fetch-news';
+import { notFound } from 'next/navigation';
 
 const DisplayNews = () => {
-  const [news, setNews] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { error, loading, news } = useFetchNews('top');
 
-  useEffect(() => {
-    const getNews = async () => {
-      const articles = await fetchNews('other');
-
-      const sortedNews = articles.sort(
-        (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
-      );
-      setNews(sortedNews);
-      setLoading(false);
-    };
-
-    getNews();
-  }, []);
-
-  // if (loading) return <LoadingSkeleton />;
+  if (loading) return <LoadingSkeleton />;
+  if (error) notFound();
 
   return (
     <main
