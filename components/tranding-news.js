@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { fetchNews } from '@/lib/fetchNews';
-import Link from 'next/link';
 import NewsCard from './news-card';
 
 export default function TrendingNews() {
