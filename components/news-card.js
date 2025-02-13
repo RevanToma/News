@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { categoryFallbacks } from '@/lib/constants';
 import { useState } from 'react';
 import { summarizeWithGemini, truncateText } from '@/lib/utils';
-import { BookMarked, EllipsisVertical, Loader, Star } from 'lucide-react';
+import { EllipsisVertical, Loader, Star } from 'lucide-react';
 import {
   Menubar,
   MenubarContent,
@@ -47,7 +47,7 @@ export default function NewsCard({ article }) {
 
       setSummary(data);
     } catch (error) {
-      console.error('❌ Error fetching summary:', error);
+      console.error('Error fetching summary:', error);
     }
     setLoading(false);
   };
@@ -136,5 +136,3 @@ export default function NewsCard({ article }) {
     </Card>
   );
 }
-
-// 14mars

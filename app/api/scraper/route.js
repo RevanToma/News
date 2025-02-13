@@ -12,7 +12,6 @@ export async function GET(req) {
   }
 
   try {
-    // Fake a user-agent header to avoid bot detection
     const response = await fetch(url, {
       headers: {
         'User-Agent':
@@ -20,11 +19,8 @@ export async function GET(req) {
       },
     });
 
-    // Handle non-200 responses
     if (!response.ok) {
-      console.error(
-        `❌ Fetch failed: ${response.status} ${response.statusText}`
-      );
+      console.error(`Fetch failed: ${response.status} ${response.statusText}`);
       return new Response(
         JSON.stringify({
           error: `Failed to fetch article: ${response.status}`,
@@ -36,11 +32,9 @@ export async function GET(req) {
       );
     }
 
-    // Parse HTML response
     const html = await response.text();
     const $ = cheerio.load(html);
 
-    // Extract meaningful content (common article structures)
     let content =
       $('article').text() ||
       $('.post-content').text() ||
@@ -48,7 +42,6 @@ export async function GET(req) {
       $('main').text() ||
       $('p').text();
 
-    // If content is empty, return an error
     if (!content.trim()) {
       return new Response(JSON.stringify({ error: 'No content found' }), {
         status: 404,
@@ -61,7 +54,7 @@ export async function GET(req) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('❌ Scraping failed:', error);
+    console.error('Scraping failed:', error);
     return new Response(JSON.stringify({ error: 'Failed to scrape article' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

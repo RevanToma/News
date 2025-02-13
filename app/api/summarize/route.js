@@ -21,7 +21,7 @@ export async function POST(req) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error('❌ Gemini API Error:', error);
+    console.error('Gemini API Error:', error);
     return new Response(
       JSON.stringify({ error: 'Failed to summarize article' }),
       {
