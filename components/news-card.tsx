@@ -66,7 +66,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
             </MenubarTrigger>
             <MenubarContent className='flex flex-col gap-2'>
               <Button
-                variant={isBookmarked ? 'destructive' : 'default'}
+                variant={isBookmarked ? 'secondary' : 'default'}
                 onClick={() =>
                   isBookmarked
                     ? removeBookmark(article.article_id)
@@ -96,7 +96,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
   };
 
   return (
-    <Card className=' relative border rounded-lg shadow flex flex-col gap-3 border-none p-1'>
+    <Card className=' relative border rounded-lg shadow flex flex-col gap-3 border-none p-2'>
       <CardHeader className='flex w-full h-full p-0 '>
         {isBookmarked && pathName !== '/bookmarks' && (
           <Star
@@ -119,7 +119,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
           height={200}
           src={imgSrc}
           alt='News'
-          className='h-80 w-full object-cover transition-opacity duration-300 ease-in-out opacity-0'
+          className='h-80 w-full object-cover transition-opacity duration-300 ease-in-out opacity-0 rounded'
           onLoad={(e) => {
             const img = e.target as HTMLImageElement;
             img.classList.remove('opacity-0', 'blur-lg');

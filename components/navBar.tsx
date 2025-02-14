@@ -62,7 +62,10 @@ export default function Navbar() {
             <ChasNewsIcon size={60} />
           </Link>
 
-          <Link href='/' className='hidden md:flex text-2xl font-bold '>
+          <Link
+            href='/'
+            className='hidden md:flex text-2xl font-bold text-primary'
+          >
             Chas News
           </Link>
         </div>

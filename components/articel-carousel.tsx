@@ -61,7 +61,7 @@ const ArticelCarousel = () => {
                         </div>
                       </Link>
                       <Button
-                        variant={isBookmarked ? 'destructive' : 'default'}
+                        variant={isBookmarked ? 'secondary' : 'default'}
                         onClick={() =>
                           isBookmarked
                             ? removeBookmark(article.article_id)
