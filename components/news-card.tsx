@@ -23,12 +23,14 @@ import {
 } from './ui/menubar';
 import { NewsArticle } from '@/types';
 import { fetchSummarize } from '@/lib/gemini';
+import { usePathname } from 'next/navigation';
 
 export default function NewsCard({ article }: { article: NewsArticle }) {
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
   const isBookmarked = bookmarks.some(
     (b) => b.article_id === article.article_id
   );
+  const pathName = usePathname();
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -56,10 +58,10 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
 
   const NewsCardActions = () => {
     return (
-      <Menubar className='absolute right-0 bottom-0 -translate-y-1 bg-transparent border-none p-0 '>
+      <Menubar className='bg-transparent border-none p-0 '>
         <MenubarMenu>
           <div>
-            <MenubarTrigger className='cursor-pointer focus:bg-transparent'>
+            <MenubarTrigger className='cursor-pointer focus:bg-transparent p-0'>
               <EllipsisVertical className='rotate-90' />
             </MenubarTrigger>
             <MenubarContent className='flex flex-col gap-2'>
@@ -94,16 +96,23 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
   };
 
   return (
-    <Card className=' relative border rounded-lg shadow flex flex-col gap-3 border-none'>
+    <Card className=' relative border rounded-lg shadow flex flex-col gap-3 border-none p-1'>
       <CardHeader className='flex w-full h-full p-0 '>
-        {isBookmarked && (
+        {isBookmarked && pathName !== '/bookmarks' && (
           <Star
-            className='absolute right-0 top-2'
+            className='absolute right-0 bottom-2'
             fill='#FFD700 '
             stroke='none'
           />
         )}
-        <NewsCardActions />
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-2 capitalize'>
+            <span>{article.pubDate}</span>
+            <span>{article.pubDateTZ}</span>
+            <span>{article.country}</span>
+          </div>
+          <NewsCardActions />
+        </div>
 
         <Image
           width={400}
@@ -122,9 +131,9 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
           onError={() => setImgSrc(categoryFallbacks.default)}
         />
       </CardHeader>
-      <CardContent>
+      <CardContent className='p-2 text-start'>
         <CardTitle className='text-lg line-clamp-2'>{article.title}</CardTitle>
-        <CardDescription className='text-sm mt-3 line-clamp-2 '>
+        <CardDescription className='text-sm mt-3 line-clamp-2'>
           {!article.description
             ? 'No description available'
             : article.description}

@@ -6,16 +6,16 @@ export default function DisplayBookmakrs() {
   const { bookmarks } = useBookmarks();
 
   return (
-    <>
+    <div className='min-h-80'>
       {bookmarks.length === 0 ? (
         <p>No bookmarks yet.</p>
       ) : (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6'>
+        <div className='grid grid-cols-1 lg:grid-cols-2  gap-6'>
           {bookmarks.map((article) => (
             <NewsCard key={article.article_id} article={article} />
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

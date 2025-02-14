@@ -14,11 +14,11 @@ const AsideNews = ({
     <aside className='lg:border-l border-gray-300 pl-2 sticky top-20 lg:h-[calc(100vh-10rem)] overflow-x-hidden w-full relative'>
       <ProgressScroll className='left-0' vertical hideOnSmallScreens />
       {category ? (
-        <h2 className='text-xl font-semibold mb-4'>
+        <h2 className='text-2xl font-semibold mb-4'>
           Recent {category.charAt(0).toUpperCase() + category.slice(1)} News
         </h2>
       ) : (
-        <h1 className='text-3xl font-bold mb-4 '>Recent News</h1>
+        <h1 className='text-4xl font-bold mb-4 '>Recent News</h1>
       )}
 
       <ul className='space-y-3'>

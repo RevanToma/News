@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { Fragment } from 'react';
 import { Button } from './ui/button';
 import useFetchNews from '@/hooks/use-fetch-news';
-import LoadingSkeleton from '@/app/loading';
 
 const ArticelCarousel = () => {
   const { news } = useFetchNews('politics');

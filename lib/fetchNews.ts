@@ -1,5 +1,24 @@
 import { NewsArticle } from '@/types';
 
+const removeDuplicates = (artices: NewsArticle[]) => {
+  const duplicates = new Set();
+
+  return artices.filter((article) => {
+    if (
+      duplicates.has(article.article_id) ||
+      duplicates.has(article.title) ||
+      duplicates.has(article.link)
+    ) {
+      return false;
+    }
+
+    duplicates.add(article.article_id);
+    duplicates.add(article.title);
+    duplicates.add(article.link);
+    return true;
+  });
+};
+
 export const fetchNews = async (
   category = 'top',
   query = ''
@@ -17,9 +36,11 @@ export const fetchNews = async (
 
     const data: NewsArticle[] = await response.json();
 
-    return data || [];
+    const uniqNews = removeDuplicates(data);
+
+    return uniqNews || [];
   } catch (error) {
-    console.error('Error fetching news from Next.js API:', error);
+    console.log('Error fetching news from Next.js API:', error);
     return [];
   }
 };

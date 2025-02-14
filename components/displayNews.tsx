@@ -8,7 +8,7 @@ import useFetchNews from '@/hooks/use-fetch-news';
 import { notFound } from 'next/navigation';
 
 const DisplayNews = () => {
-  const { error, loading, news } = useFetchNews('top');
+  const { error, loading, news } = useFetchNews('other');
 
   if (loading) return <LoadingSkeleton />;
   if (error) notFound();
@@ -19,9 +19,9 @@ const DisplayNews = () => {
     '
     >
       <section className='lg:col-span-2 px-2'>
-        <h1 className='text-3xl font-bold mb-4 pl-1'>🔥 Trending News</h1>
+        <h1 className='text-4xl font-bold mb-4'>🔥 Trending News</h1>
         <TrendingNews />
-        <h1 className='text-3xl font-bold mb-4 pl-1 mt-5'>🆕 Latest News</h1>
+        <h1 className='text-4xl font-bold mb-4 pl-1 mt-5'>🆕 News</h1>
         <div className='grid grid-cols-1 md:grid-cols-1 gap-6'>
           {news.map((article) => (
             <NewsCard key={article.article_id} article={article} />
