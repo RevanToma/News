@@ -1,3 +1,4 @@
+'use client';
 import { categories } from '@/lib/constants';
 import { useState } from 'react';
 import { Card, CardContent } from './ui/card';

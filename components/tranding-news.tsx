@@ -1,9 +1,8 @@
-'use client';
 import NewsCard from './news-card';
-import useFetchNews from '@/hooks/use-fetch-news';
+import { getNews } from '@/actions/news.actions';
 
-export default function TrendingNews() {
-  const { news: trending } = useFetchNews();
+export default async function TrendingNews() {
+  const { data: trending } = await getNews();
 
   return (
     <aside className='pb-5'>

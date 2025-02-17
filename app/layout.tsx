@@ -28,7 +28,7 @@ export default function RootLayout({
         suppressContentEditableWarning
       >
         <ThemeProvider
-          attribute={'class'}
+          attribute='class'
           defaultTheme='dark'
           enableSystem
           disableTransitionOnChange

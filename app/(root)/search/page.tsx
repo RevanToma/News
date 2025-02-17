@@ -1,34 +1,15 @@
-'use client';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { fetchNews } from '@/lib/fetchNews';
 import NewsCard from '@/components/news-card';
-import LoadingSkeleton from '@/app/loading';
-import { NewsArticle } from '@/types';
-import useFetchNews from '@/hooks/use-fetch-news';
+import { getNews } from '@/actions/news.actions';
+import { FC } from 'react';
 
-const SearchResultsPage = () => {
-  const searchParams = useSearchParams();
-  const query = searchParams.get('q') || '';
-  // const [news, setNews] = useState<NewsArticle[]>([]);
-  // const [loading, setLoading] = useState(true);
-  const { news, loading } = useFetchNews('top', query);
+interface SearchResultsProps {
+  searchParams: { q?: string };
+}
 
-  // console.log('query', query);
-  // useEffect(() => {
-  //   if (!query) return;
+const SearchResultsPage: FC<SearchResultsProps> = async ({ searchParams }) => {
+  const query = searchParams.q || '';
 
-  //   const getSearchResults = async () => {
-  //     const articles = await fetchNews('top', query);
-  //     // @ts-ignore
-  //     setNews(articles.results);
-  //     // setLoading(false);
-  //   };
-
-  //   getSearchResults();
-  // }, [query]);
-
-  if (loading) return <LoadingSkeleton />;
+  const { data: news } = await getNews('top', query);
 
   return (
     <main className='max-w-7xl mx-auto p-6 min-h-80'>

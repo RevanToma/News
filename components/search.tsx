@@ -32,6 +32,7 @@ const Search = () => {
   return (
     <form
       action={'/search'}
+      method='GET'
       onSubmit={handleSubmit}
       className='flex items-center gap-3'
     >

@@ -1,15 +1,17 @@
 'use client';
 import NewsCard from '@/components/news-card';
 import AsideNews from '@/components/aside-news';
-import LoadingSkeleton from '@/app/loading';
 import { categoryIcons } from '@/lib/constants';
-import useFetchNews from '@/hooks/use-fetch-news';
+import { NewsArticle } from '@/types';
 
-const CategoryDetailsPage = ({ category }: { category: string }) => {
-  const { news, loading } = useFetchNews(category);
+const CategoryDetailsPage = ({
+  news,
+  category,
+}: {
+  news: NewsArticle[];
+  category: string;
+}) => {
   const categoryEmote = categoryIcons[category as keyof typeof categoryIcons];
-
-  if (loading) return <LoadingSkeleton />;
 
   return (
     <main className='p-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6'>
