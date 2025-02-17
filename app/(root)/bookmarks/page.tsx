@@ -1,5 +1,9 @@
+import { Metadata } from 'next';
 import DisplayBookmakrs from './display-bookmarks';
 
+export const metadata: Metadata = {
+  title: 'Bookmarks',
+};
 export default async function BookmarksPage() {
   return (
     <main className='p-6 max-w-5xl mx-auto '>

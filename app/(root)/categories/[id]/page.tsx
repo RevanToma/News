@@ -1,9 +1,10 @@
 import { getNews } from '@/actions/news.actions';
-import AsideNews from '@/components/aside-news';
-import NewsCard from '@/components/news-card';
-import { categoryIcons } from '@/lib/constants';
 import CategoryDetailsPage from './categoryDetails';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Category',
+};
 const CategoryPage = async (props: {
   params: Promise<{
     id: string;

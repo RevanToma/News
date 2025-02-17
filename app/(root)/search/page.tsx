@@ -1,10 +1,15 @@
 import NewsCard from '@/components/news-card';
 import { getNews } from '@/actions/news.actions';
 import { FC } from 'react';
+import { Metadata } from 'next';
 
 interface SearchResultsProps {
   searchParams: { q?: string };
 }
+
+export const metadata: Metadata = {
+  title: 'Search Results',
+};
 
 const SearchResultsPage: FC<SearchResultsProps> = async ({ searchParams }) => {
   const query = searchParams.q || '';

@@ -15,7 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Chas News',
+  title: {
+    template: `%s | Chas-News`,
+    default: 'Chas-News',
+  },
 };
 
 export default function RootLayout({
