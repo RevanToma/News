@@ -110,7 +110,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
   }, [article.description, summary]);
 
   return (
-    <Card className='relative border rounded-lg shadow flex flex-col gap-3 border-none p-2'>
+    <Card className='relative border rounded-lg shadow flex flex-col gap-3 border-none p-2 '>
       <CardHeader className='flex w-full h-full p-0 '>
         {isBookmarked && pathName !== '/bookmarks' && (
           <Star
@@ -140,12 +140,13 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
           height={200}
           src={imgSrc}
           alt='News'
-          className='h-80 w-full object-cover transition-opacity duration-300 ease-in-out opacity-0 rounded'
+          className='h-80 aspect-[16/9] w-full object-cover rounded'
           onLoad={(e) => {
             const img = e.target as HTMLImageElement;
             img.classList.remove('opacity-0', 'blur-lg');
             img.classList.add('opacity-100');
           }}
+          style={{ objectPosition: 'top center' }}
           placeholder='blur'
           priority={false}
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAvklEQVR42mNgGAWjYBSMglEwCYaIoIL/2tDFp+GoAD5P04z2HdUOUBRvTD4MQVUAzDqhDSoKxCmZoJlAIgsK0TgGhsLzMwMDAwDCJRIAXcMDAwDDIQEmYGxDH4MBMYGxjP2z6T1AqAtRUVDBUzAAwPDAwMDw+IkgDYMwMlDBXbOUBDEwMDDX1H1FVjEHwBmJjAwPCwxHiIwAgawG4mA8TIWgbDAQrAjoIC8pShq/AHIZRgAQlsLsgAAAABJRU5ErkJggg=='
