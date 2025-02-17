@@ -12,7 +12,7 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { categoryFallbacks } from '@/lib/constants';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { truncateText } from '@/lib/utils';
 import { EllipsisVertical, Loader, Star } from 'lucide-react';
 import {
@@ -24,6 +24,59 @@ import {
 import { NewsArticle } from '@/types';
 import { fetchSummarize } from '@/lib/gemini';
 import { usePathname } from 'next/navigation';
+
+const NewsCardActions = ({
+  article,
+  isBookmarked,
+  addBookmark,
+  removeBookmark,
+  handleSummarize,
+  loading,
+}: {
+  article: NewsArticle;
+  isBookmarked: boolean;
+  addBookmark: (article: NewsArticle) => void;
+  removeBookmark: (article_id: string) => void;
+  handleSummarize: () => void;
+  loading: boolean;
+}) => {
+  return (
+    <Menubar className='bg-transparent border-none p-0 '>
+      <MenubarMenu>
+        <div>
+          <MenubarTrigger className='cursor-pointer focus:bg-transparent p-0'>
+            <EllipsisVertical className='rotate-90' />
+          </MenubarTrigger>
+          <MenubarContent className='flex flex-col gap-2'>
+            <Button
+              variant={isBookmarked ? 'secondary' : 'default'}
+              onClick={() =>
+                isBookmarked
+                  ? removeBookmark(article.article_id)
+                  : addBookmark(article)
+              }
+            >
+              {isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
+            </Button>
+            <Button asChild variant='outline'>
+              <Link href={article.link} target='_blank'>
+                Read more
+              </Link>
+            </Button>
+
+            <Button
+              onClick={handleSummarize}
+              disabled={loading}
+              variant='secondary'
+            >
+              Summarize
+            </Button>
+          </MenubarContent>
+        </div>
+      </MenubarMenu>
+    </Menubar>
+  );
+};
 
 export default function NewsCard({ article }: { article: NewsArticle }) {
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
@@ -40,7 +93,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
       categoryFallbacks.default
   );
 
-  const handleSummarize = async () => {
+  const handleSummarize = useCallback(async () => {
     if (summary) return;
 
     setLoading(true);
@@ -54,46 +107,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
       console.error('Error fetching summary:', error);
     }
     setLoading(false);
-  };
-
-  const NewsCardActions = () => {
-    return (
-      <Menubar className='bg-transparent border-none p-0 '>
-        <MenubarMenu>
-          <div>
-            <MenubarTrigger className='cursor-pointer focus:bg-transparent p-0'>
-              <EllipsisVertical className='rotate-90' />
-            </MenubarTrigger>
-            <MenubarContent className='flex flex-col gap-2'>
-              <Button
-                variant={isBookmarked ? 'secondary' : 'default'}
-                onClick={() =>
-                  isBookmarked
-                    ? removeBookmark(article.article_id)
-                    : addBookmark(article)
-                }
-              >
-                {isBookmarked ? 'Remove Bookmark' : 'Bookmark'}
-              </Button>
-              <Button asChild variant='outline'>
-                <Link href={article.link} target='_blank'>
-                  Read more
-                </Link>
-              </Button>
-
-              <Button
-                onClick={handleSummarize}
-                disabled={loading}
-                variant='secondary'
-              >
-                Summarize
-              </Button>
-            </MenubarContent>
-          </div>
-        </MenubarMenu>
-      </Menubar>
-    );
-  };
+  }, [article.description, summary]);
 
   return (
     <Card className='relative border rounded-lg shadow flex flex-col gap-3 border-none p-2'>
@@ -111,7 +125,14 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
             <span>{article.pubDateTZ}</span>
             <span>{article.country}</span>
           </div>
-          <NewsCardActions />
+          <NewsCardActions
+            addBookmark={addBookmark}
+            article={article}
+            isBookmarked={isBookmarked}
+            removeBookmark={removeBookmark}
+            handleSummarize={handleSummarize}
+            loading={loading}
+          />
         </div>
 
         <Image
