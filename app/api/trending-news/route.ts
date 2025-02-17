@@ -5,7 +5,6 @@ export async function GET() {
   try {
     const results = await fetchAndCacheNews('?category=top', 'trending');
 
-    console.log('results', results);
     return NextResponse.json({ results }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -41,7 +41,6 @@ export async function fetchAndCacheNews(
     const data = await response.json();
     fs.writeFileSync(cacheFile, JSON.stringify(data.results || []));
 
-    console.log('data from newsapi!!!!!', data);
     return data.results || [];
   } catch (error) {
     console.error('API Fetch Error:', error);
