@@ -6,8 +6,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**',
       },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
     ],
-    domains: ['img.republicworld.com', 'koreabizwire.com', 'en.people.cn'],
   },
 };
 

@@ -1,20 +1,33 @@
 'use client';
 import { categories } from '@/lib/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Loader } from 'lucide-react';
-import useFetchNews from '@/hooks/use-fetch-news';
+import { NewsArticle } from '@/types';
+import { getNews } from '@/actions/news.actions';
 
 const NewsRoulette = () => {
   const [randomCat, setRandomCat] = useState(''),
-    { news, loading } = useFetchNews(randomCat),
-    [showNews, setShowNews] = useState(false);
+    [showNews, setShowNews] = useState(false),
+    [news, setNews] = useState<NewsArticle>(),
+    [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      if (!randomCat) return;
+      setLoading(true);
+      const fetchedNews = await getNews(randomCat);
+      setNews(fetchedNews?.data[0]);
+      setLoading(false);
+    };
+
+    fetchNews();
+  }, [randomCat]);
 
   const fetchRandomNews = () => {
     const randomCategory =
       categories[Math.floor(Math.random() * categories.length)];
-
     setRandomCat(randomCategory);
     setShowNews(true);
   };
@@ -26,10 +39,10 @@ const NewsRoulette = () => {
         ) : (
           showNews && (
             <div>
-              <h2 className='text-lg font-bold'>{news[0].title}</h2>
-              <p className='mt-2'>{news[0].description}</p>
+              <h2 className='text-lg font-bold'>{news?.title}</h2>
+              <p className='mt-2'>{news?.description}</p>
               <a
-                href={news[0].link}
+                href={news?.link}
                 target='_blank'
                 className='text-blue-500 underline'
               >
@@ -40,7 +53,7 @@ const NewsRoulette = () => {
         )}
       </CardContent>
       <h2 className='font-bold'>Spin the News Wheel!</h2>
-      <Button onClick={fetchRandomNews} className='w-full'>
+      <Button onClick={fetchRandomNews} className='w-full' disabled={loading}>
         🎰 Surprise Me!
       </Button>
     </Card>
