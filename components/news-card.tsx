@@ -96,7 +96,7 @@ export default function NewsCard({ article }: { article: NewsArticle }) {
   };
 
   return (
-    <Card className=' relative border rounded-lg shadow flex flex-col gap-3 border-none p-2'>
+    <Card className='relative border rounded-lg shadow flex flex-col gap-3 border-none p-2'>
       <CardHeader className='flex w-full h-full p-0 '>
         {isBookmarked && pathName !== '/bookmarks' && (
           <Star

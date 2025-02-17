@@ -30,7 +30,7 @@ export default function Navbar() {
               <EllipsisVertical />
             </SheetTrigger>
             <SheetContent className='flex flex-col' side='left'>
-              <div className='flex flex-col gap-5'>
+              <div className='flex flex-col gap-5 '>
                 <Link href='/'>
                   <Image
                     src='/chasnews-logo.svg'
@@ -47,7 +47,7 @@ export default function Navbar() {
                     href={`/categories/${category}`}
                     className='flex items-center gap-2 py-2 capitalize'
                   >
-                    {pathname === `/categories/${category}` && <span>🔹</span>}
+                    {pathname === `/categories/${category}` && <span>🔸</span>}
                     {category}
                   </Link>
                 </SheetTitle>
@@ -83,13 +83,9 @@ export default function Navbar() {
                 <MenubarItem key={category}>
                   <Link
                     href={`/categories/${category}`}
-                    className={
-                      `w-full px-4 py-2 capitalize` +
-                      (pathname === `/categories/${category}`
-                        ? ' border-b-2'
-                        : '')
-                    }
+                    className='w-full flex gap-2 py-2 capitalize'
                   >
+                    {pathname === `/categories/${category}` && <span>🔸</span>}
                     {category}
                   </Link>
                 </MenubarItem>
