@@ -6,6 +6,7 @@ import LoadingSkeleton from '@/app/loading';
 import TrendingNews from './tranding-news';
 import useFetchNews from '@/hooks/use-fetch-news';
 import { notFound } from 'next/navigation';
+import NewsRoulette from './news-roulette';
 
 const DisplayNews = () => {
   const { error, loading, news } = useFetchNews('other');
@@ -15,9 +16,10 @@ const DisplayNews = () => {
 
   return (
     <main
-      className='max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mt-3 
+      className='max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 mt-3 
     '
     >
+      <NewsRoulette />
       <section className='lg:col-span-2 px-2'>
         <h1 className='text-4xl font-bold mb-4'>🔥 Trending News</h1>
         <TrendingNews />

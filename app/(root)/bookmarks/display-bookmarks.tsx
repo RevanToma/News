@@ -1,5 +1,6 @@
 'use client';
 import NewsCard from '@/components/news-card';
+import NewsRoulette from '@/components/news-roulette';
 import { useBookmarks } from '@/context/bookmarkContext';
 
 export default function DisplayBookmakrs() {
