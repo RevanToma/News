@@ -5,30 +5,33 @@ import { fetchNews } from '@/lib/fetchNews';
 import NewsCard from '@/components/news-card';
 import LoadingSkeleton from '@/app/loading';
 import { NewsArticle } from '@/types';
+import useFetchNews from '@/hooks/use-fetch-news';
 
 const SearchResultsPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
-  const [news, setNews] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [news, setNews] = useState<NewsArticle[]>([]);
+  // const [loading, setLoading] = useState(true);
+  const { news, loading } = useFetchNews('top', query);
 
-  useEffect(() => {
-    if (!query) return;
+  // console.log('query', query);
+  // useEffect(() => {
+  //   if (!query) return;
 
-    const getSearchResults = async () => {
-      const articles = await fetchNews('top', query);
-      // @ts-ignore
-      setNews(articles.results);
-      setLoading(false);
-    };
+  //   const getSearchResults = async () => {
+  //     const articles = await fetchNews('top', query);
+  //     // @ts-ignore
+  //     setNews(articles.results);
+  //     // setLoading(false);
+  //   };
 
-    getSearchResults();
-  }, [query]);
+  //   getSearchResults();
+  // }, [query]);
 
   if (loading) return <LoadingSkeleton />;
 
   return (
-    <main className='max-w-7xl mx-auto p-6'>
+    <main className='max-w-7xl mx-auto p-6 min-h-80'>
       <h1 className='text-3xl font-bold mb-4'>
         Found {news?.length} Search Results for &quot;{query}&quot;
       </h1>

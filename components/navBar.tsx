@@ -13,8 +13,8 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from './ui/sheet';
 import { EllipsisVertical } from 'lucide-react';
 import Search from './search';
 import { categories } from '@/lib/constants';
-import ChasNewsIcon from './chas-news-icon';
 import ProgressScroll from './progress-scroll';
+import Image from 'next/image';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -32,7 +32,12 @@ export default function Navbar() {
             <SheetContent className='flex flex-col' side='left'>
               <div className='flex flex-col gap-5'>
                 <Link href='/'>
-                  <ChasNewsIcon size={50} />
+                  <Image
+                    src='/chasnews-logo.svg'
+                    alt='Chas News Logo'
+                    width={150}
+                    height={150}
+                  />
                 </Link>
                 <SheetTitle className='border-b w-full'>Categories</SheetTitle>
               </div>
@@ -52,21 +57,16 @@ export default function Navbar() {
           </Sheet>
         </nav>
         <div className='flex items-center gap-4'>
-          {/* <Image
-            src='/newlogo.webp'
-            alt='Chas News Logo'
-            width={40}
-            height={40}
-          /> */}
-          <Link href='/' className='hidden md:flex'>
-            <ChasNewsIcon size={60} />
-          </Link>
-
           <Link
             href='/'
-            className='hidden md:flex text-2xl font-bold text-primary'
+            className='hidden md:flex text-2xl font-bold text-primary '
           >
-            Chas News
+            <Image
+              src='/chasnews-logo.svg'
+              alt='Chas News Logo'
+              width={150}
+              height={150}
+            />
           </Link>
         </div>
         <Search />

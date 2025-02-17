@@ -7,14 +7,12 @@ export async function GET(req: Request) {
   const query = searchParams.get('q') || '';
 
   try {
-    const articles = await fetchAndCacheNews(
+    const results = await fetchAndCacheNews(
       `?category=${category}${query ? `&q=${query}` : ''}`,
       `${category}${query ? `-search-${query}` : ''}`
     );
-    return new Response(JSON.stringify(articles), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+
+    return NextResponse.json({ results }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to load news' }, { status: 500 });
   }

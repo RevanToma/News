@@ -7,7 +7,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    domains: ['img.republicworld.com', 'koreabizwire.com'],
+    domains: ['img.republicworld.com', 'koreabizwire.com', 'en.people.cn'],
   },
 };
 

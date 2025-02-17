@@ -1,9 +1,9 @@
 import { NewsArticle } from '@/types';
 
-const removeDuplicates = (artices: NewsArticle[]) => {
+const removeDuplicates = (articles: NewsArticle[]) => {
   const duplicates = new Set();
 
-  return artices.filter((article) => {
+  return articles.filter((article) => {
     if (
       duplicates.has(article.article_id) ||
       duplicates.has(article.title) ||
@@ -18,7 +18,6 @@ const removeDuplicates = (artices: NewsArticle[]) => {
     return true;
   });
 };
-
 export const fetchNews = async (
   category = 'top',
   query = ''
@@ -28,19 +27,21 @@ export const fetchNews = async (
       ? `/api/search?q=${query}`
       : `/api/news?category=${category}`;
 
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint),
+      data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(`❌ Failed to fetch news, Status: ${response.status}`);
+    if (!Array.isArray(data.results)) {
+      console.error(
+        '❌ API did not return an array!,most likely because of exceeded the rate limit',
+        data
+      );
+      return [];
     }
 
-    const data: NewsArticle[] = await response.json();
-
-    const uniqNews = removeDuplicates(data);
-
+    const uniqNews = removeDuplicates(data.results);
     return uniqNews || [];
   } catch (error) {
-    console.log('Error fetching news from Next.js API:', error);
+    console.error('Error fetching news from Next.js API:', error);
     return [];
   }
 };

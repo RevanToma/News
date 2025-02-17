@@ -41,7 +41,8 @@ export async function fetchAndCacheNews(
     const data = await response.json();
     fs.writeFileSync(cacheFile, JSON.stringify(data.results || []));
 
-    return { results: data.results || [] };
+    console.log('data from newsapi!!!!!', data);
+    return data.results || [];
   } catch (error) {
     console.error('API Fetch Error:', error);
     throw new Error('Failed to load news');
@@ -49,38 +50,38 @@ export async function fetchAndCacheNews(
 }
 
 // eller spara i minnet
+// const memoryCache: Record<string, NewsArticle[]> = {};
 
-// const cache = {};
-
-// export async function fetchAndCacheNews(endpoint, cacheKey) {
-//   if (cache[cacheKey]) {
-//     return cache[cacheKey];
+// export async function fetchAndCacheNewsToMemory(
+//   endpoint: string,
+//   cacheKey: string
+// ): Promise<NewsArticle[]> {
+//   if (memoryCache[cacheKey]) {
+//     console.log(`🟢 Serving from memory cache: ${cacheKey}`);
+//     return memoryCache[cacheKey];
 //   }
 
 //   const apiKey = process.env.NEWS_API_KEY;
 //   const apiUrl = process.env.NEXT_PUBLIC_NEWS_API_URL;
 
-//   if (!apiKey) {
-//     throw new Error('API key is missing');
-//   }
+//   if (!apiKey) throw new Error('❌ API key is missing');
+
+//   const fullUrl = `${apiUrl}${endpoint}&apikey=${apiKey}&language=en`;
 
 //   try {
-
-//     const response = await fetch(
-//       `${apiUrl}${endpoint}&apikey=${apiKey}&language=en`
-//     );
-
-//     if (!response.ok) {
-//       throw new Error(`Failed to fetch news, Status: ${response.status}`);
-//     }
+//     console.log(`🔵 Fetching fresh news from API: ${fullUrl}`);
+//     const response = await fetch(fullUrl);
+//     if (!response.ok)
+//       throw new Error(`❌ Failed to fetch news, Status: ${response.status}`);
 
 //     const data = await response.json();
+//     const newsResults = data.results || [];
 
-//     cache[cacheKey] = data.results || [];
+//     memoryCache[cacheKey] = newsResults;
 
-//     return cache[cacheKey];
+//     return newsResults;
 //   } catch (error) {
-//     console.error(' API Fetch Error:', error);
+//     console.error('❌ API Fetch Error:', error);
 //     throw new Error('Failed to load news');
 //   }
 // }

@@ -2,7 +2,7 @@ import { fetchNews } from '@/lib/fetchNews';
 import { NewsArticle } from '@/types';
 import { useEffect, useState } from 'react';
 
-const useFetchNews = (category?: string) => {
+const useFetchNews = (category?: string, query?: string) => {
   const [news, setNews] = useState<NewsArticle[]>([]),
     [loading, setLoading] = useState(true),
     [error, setError] = useState<string | null>(null);
@@ -10,7 +10,7 @@ const useFetchNews = (category?: string) => {
   useEffect(() => {
     const getNews = async () => {
       try {
-        const articles = await fetchNews(category);
+        const articles = await fetchNews(category, query);
 
         const sortedNews = articles.sort(
           (a, b) =>

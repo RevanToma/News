@@ -1,0 +1,12 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+   <rect width="200" height="50" rx="10" fill="url(#grad1)"/>
+   <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle" alignment-baseline="middle">
+     CHAS NEWS
+   </text>
+   <defs>
+     <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="0">
+       <stop offset="0%" stop-color="#422006"/>
+       <stop offset="100%" stop-color="#713f12"/>
+     </linearGradient>
+   </defs>
+</svg>
