@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const SearchResultsPage: FC<SearchResultsProps> = async ({ searchParams }) => {
-  const query = searchParams.q || '';
+  const query = await searchParams.q || '';
 
   const { data: news } = await getNews('top', query);
 

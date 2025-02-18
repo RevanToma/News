@@ -38,7 +38,7 @@ export const fetchSummarize = async (description: string) => {
     });
 
     if (!response.ok) {
-      throw new Error(`❌ Failed to fetch summary, Status: ${response.status}`);
+      throw new Error(`Failed to fetch summary, Status: ${response.status}`);
     }
 
     const data = await response.json();

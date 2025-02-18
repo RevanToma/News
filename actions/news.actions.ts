@@ -3,7 +3,6 @@
 import fs from 'fs';
 import path from 'path';
 import { NewsArticle } from '@/types';
-import { revalidatePath } from 'next/cache';
 
 const CACHE_DIR = path.join(process.cwd(), '.cache');
 
@@ -36,9 +35,8 @@ export async function fetchNews(
     throw new Error('API key is missing');
   }
 
-  const fullUrl = `${apiUrl}?category=${category}${
-    query ? `&q=${query}` : ''
-  }&apikey=${apiKey}&language=en`;
+  const fullUrl = `${apiUrl}?category=${category}${query ? `&q=${query}` : ''
+    }&apikey=${apiKey}&language=en`;
 
   try {
     const response = await fetch(fullUrl);
@@ -89,7 +87,7 @@ export const getNews = async (
 
     if (!Array.isArray(data)) {
       console.error(
-        '❌ API did not return an array! Most likely because of exceeding the rate limit',
+        'API did not return an array! Most likely because of exceeding the rate limit',
         data
       );
       return {
@@ -126,7 +124,7 @@ export const getNews = async (
 //   const apiKey = process.env.NEWS_API_KEY;
 //   const apiUrl = process.env.NEXT_PUBLIC_NEWS_API_URL;
 
-//   if (!apiKey) throw new Error('❌ API key is missing');
+//   if (!apiKey) throw new Error('API key is missing');
 
 //   const fullUrl = `${apiUrl}${endpoint}&apikey=${apiKey}&language=en`;
 
@@ -134,7 +132,7 @@ export const getNews = async (
 //     console.log(`🔵 Fetching fresh news from API: ${fullUrl}`);
 //     const response = await fetch(fullUrl);
 //     if (!response.ok)
-//       throw new Error(`❌ Failed to fetch news, Status: ${response.status}`);
+//       throw new Error(`Failed to fetch news, Status: ${response.status}`);
 
 //     const data = await response.json();
 //     const newsResults = data.results || [];
@@ -143,7 +141,7 @@ export const getNews = async (
 
 //     return newsResults;
 //   } catch (error) {
-//     console.error('❌ API Fetch Error:', error);
+//     console.error('API Fetch Error:', error);
 //     throw new Error('Failed to load news');
 //   }
 // }
